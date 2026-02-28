@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import HorizontalCalendarStrip from '@/components/Dashboard/HorizontalCalendarStrip.vue';
 import LastTransactionsTable from '@/components/Dashboard/LastTransactionsTable.vue';
 import { ITransaction } from '@/types/models/transaction';
+import DashboardCard from '@/components/Dashboard/DashboardCard.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -43,6 +44,21 @@ defineProps<Props>();
 
       <!-- CALENDAR -->
       <HorizontalCalendarStrip />
+
+      <!-- CARDS -->
+      <div class="grid grid-cols-2 gap-6 mb-4">
+        <DashboardCard
+          title="Total Income"
+          description="Total income for the current month"
+          :amount="5000"
+        />
+
+        <DashboardCard
+          title="Total Expenses"
+          description="Total expenses for the current month"
+          :amount="3000"
+        />
+      </div>
 
       <!-- PLACEHOLDER -->
       <div
