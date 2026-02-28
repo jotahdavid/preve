@@ -1,14 +1,29 @@
 <script setup lang="ts">
-
+import { computed } from 'vue';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+type Variant = 'positive' | 'neutral' | 'destructive';
 
 interface Props {
   title: string;
   description: string;
   amount: string;
+  variant?: Variant;
 }
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'neutral',
+});
+
+const amountClass = computed(() => {
+  const classes: Record<Variant, string> = {
+    positive: 'text-positive',
+    neutral: 'text-foreground',
+    destructive: 'text-destructive',
+  };
+
+  return classes[props.variant];
+});
 </script>
 
 <template>
@@ -19,9 +34,7 @@ defineProps<Props>();
       </CardTitle>
     </CardHeader>
     <CardContent>
-      <p
-        class="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400"
-      >
+      <p class="text-2xl font-bold font-mono" :class="amountClass">
         R$ {{ amount }}
       </p>
       <p class="text-xs text-muted-foreground mt-1">

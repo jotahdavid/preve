@@ -11,6 +11,7 @@ import HorizontalCalendarStrip from '@/components/Dashboard/HorizontalCalendarSt
 import LastTransactionsTable from '@/components/Dashboard/LastTransactionsTable.vue';
 import { ITransaction } from '@/types/models/transaction';
 import DashboardCard from '@/components/Dashboard/DashboardCard.vue';
+import { computed } from 'vue';
 import { formatCentsToDisplay } from '@/lib/currency';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -26,7 +27,19 @@ interface Props {
   forecast: number;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const balanceVariant = computed(() => {
+  if (props.availableBalance > 0) return 'positive';
+  if (props.availableBalance < 0) return 'destructive';
+  return 'neutral';
+});
+
+const forecastVariant = computed(() => {
+  if (props.forecast > 0) return 'positive';
+  if (props.forecast < 0) return 'destructive';
+  return 'neutral';
+});
 </script>
 
 <template>
@@ -54,12 +67,14 @@ defineProps<Props>();
           title="Available Balance"
           description="Income minus paid expenses this month"
           :amount="formatCentsToDisplay(availableBalance)"
+          :variant="balanceVariant"
         />
 
         <DashboardCard
           title="Forecast"
           description="Balance after pending expenses"
           :amount="formatCentsToDisplay(forecast)"
+          :variant="forecastVariant"
         />
       </div>
 
