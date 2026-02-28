@@ -13,13 +13,27 @@ final class DashboardController extends Controller
 {
     public function __invoke(Request $request): Response
     {
-        $latestTransactions = Auth::user()
+        $user = Auth::user();
+        $now = now();
+
+        $latestTransactions = $user
             ->transactions()
             ->with('category')
             ->limit(5)
             ->orderBy('transaction_date', 'desc')
             ->get();
 
-        return Inertia::render('Dashboard', compact('latestTransactions'));
+        $totalIncome = $user->transactions()->inMonth($now)->paid($now)->income()->sum('amount');
+        $totalExpenses = $user->transactions()->inMonth($now)->paid($now)->expense()->sum('amount');
+        $availableBalance = $totalIncome - $totalExpenses;
+
+        $pendingExpenses = $user->transactions()->inMonth($now)->pending($now)->expense()->sum('amount');
+        $forecast = $availableBalance - $pendingExpenses;
+
+        return Inertia::render('Dashboard', compact(
+            'latestTransactions',
+            'availableBalance',
+            'forecast',
+        ));
     }
 }
