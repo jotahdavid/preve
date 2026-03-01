@@ -41,39 +41,42 @@ const scrollToSelected = () => {
   });
 };
 
+const emitMonth = (month: number, year: number) => {
+  emit('update:month', { month: month + 1, year });
+};
+
+const changeYear = (newYear: number, month: number): boolean => {
+  if (newYear < MIN_YEAR || newYear > MAX_YEAR) {
+    toast.error(newYear < MIN_YEAR
+      ? 'You have reached the earliest available year.'
+      : 'You have reached the latest available year.',
+    );
+    return false;
+  }
+  selectedYear.value = String(newYear);
+  selectedMonth.value = month;
+  return true;
+};
+
 const navigate = (direction: 'prev' | 'next') => {
   const year = Number(selectedYear.value);
 
   if (direction === 'prev') {
     if (selectedMonth.value === 0) {
-      if (year - 1 < MIN_YEAR) {
-        toast.error('You have reached the earliest available year.');
-        return;
-      }
-      selectedMonth.value = 11;
-      selectedYear.value = String(year - 1);
+      if (!changeYear(year - 1, 11)) return;
     } else {
       selectedMonth.value--;
     }
   } else {
     if (selectedMonth.value === 11) {
-      if (year + 1 > MAX_YEAR) {
-        toast.error('You have reached the latest available year.');
-        return;
-      }
-      selectedMonth.value = 0;
-      selectedYear.value = String(year + 1);
+      if (!changeYear(year + 1, 0)) return;
     } else {
       selectedMonth.value++;
     }
   }
 
   scrollToSelected();
-  emit('update:month', { month: selectedMonth.value + 1, year: Number(selectedYear.value) });
-};
-
-const emitMonth = (month: number, year: number) => {
-  emit('update:month', { month: month + 1, year });
+  emitMonth(selectedMonth.value, Number(selectedYear.value));
 };
 
 const handleYearChange = (newYear: string) => {
