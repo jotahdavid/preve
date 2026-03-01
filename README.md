@@ -254,7 +254,8 @@ This project is licensed under the MIT License.
 **Combizera**
 - GitHub: [@combizera](https://github.com/combizera)
 
-[//]: # (TODO: colocar nome do L0rd)
+**Victor Alves**
+- Github: [@victoralvesf](https://github.com/victoralvesf)
 
 ---
 

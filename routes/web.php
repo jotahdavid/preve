@@ -15,11 +15,11 @@ Route::get('/', WelcomeController::class)->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-    Route::resource('categories', CategoryController::class)->except('create', 'edit');
-    Route::resource('tags', TagController::class)->except('create', 'edit');
+    Route::resource('categories', CategoryController::class)->except('create', 'edit', 'show');
+    Route::resource('tags', TagController::class)->except('create', 'edit', 'show');
     Route::resource('transactions', TransactionController::class)->except('create', 'edit');
     Route::patch('recurring/{recurring}/toggle', [RecurringTransactionController::class, 'toggle'])->name('recurring.toggle');
-    Route::resource('recurring', RecurringTransactionController::class)->except('create', 'edit');
+    Route::resource('recurring', RecurringTransactionController::class)->except('create', 'edit', 'show');
 });
 
 require __DIR__ . '/settings.php';
