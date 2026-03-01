@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { StickyNote } from 'lucide-vue-next';
 import { dashboard } from '@/routes';
 import transactionRoutes from '@/routes/transactions';
 import type { BreadcrumbItem } from '@/types';
 import { ITransaction } from '@/types/models/transaction';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import DetailItem from '@/components/Transaction/DetailItem.vue';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { formatCentsToDisplay } from '@/lib/currency';
 import { formatTransactionDate } from '@/utils/formatDate';
 import { cn } from '@/lib/utils';
@@ -55,62 +57,49 @@ function amountClass(transaction: ITransaction) {
           </p>
 
           <ul class="space-y-2">
-            <li class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-sm">
-                Date:
-              </span>
-              <p class="text-foreground text-sm">
-                {{ formatTransactionDate(transaction.transaction_date) }}
-              </p>
-            </li>
-            <li class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-sm">
-                Category:
-              </span>
-              <p class="text-foreground text-sm">
-                {{ transaction.category?.name }}
-              </p>
-            </li>
-            <li v-if="transaction.tag" class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-sm">
-                Tag:
-              </span>
-              <p class="text-foreground text-sm">
-                {{ transaction.tag?.name }}
-              </p>
-            </li>
-            <li v-if="transaction.notes" class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-sm">
-                Notes:
-              </span>
-              <p class="text-foreground text-sm">
-                {{ transaction.notes }}
-              </p>
-            </li>
-            <li class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-sm">
-                Created At:
-              </span>
-              <p class="text-foreground text-sm">
-                {{ formatTransactionDate(transaction.created_at) }}
-              </p>
-            </li>
+            <DetailItem label="Date:" :value="formatTransactionDate(transaction.transaction_date)" />
+            <DetailItem label="Category:" :value="transaction.category?.name" />
+            <DetailItem label="Tag:" :value="transaction.tag?.name" />
+            <DetailItem label="Notes:" :value="transaction.notes" />
+            <DetailItem label="Created At:" :value="formatTransactionDate(transaction.created_at)" />
           </ul>
 
           <div class="w-full h-px border-b border-dashed border-muted-foreground/40" />
 
           <ul class="space-y-2">
-            <li class="flex justify-between gap-2">
-              <span class="text-muted-foreground text-md font-medium">
-                Amount:
-              </span>
-              <p :class="amountClass(transaction)">
-                R$ {{ formattedAmount(transaction) }}
-              </p>
-            </li>
+            <DetailItem
+              label="Amount:"
+              :value="`R$ ${formattedAmount(transaction)}`"
+              :value-class="amountClass(transaction)"
+            />
           </ul>
         </div>
       </CardContent>
+
+      <CardFooter v-if="transaction.notes" class="py-0 mt-4">
+        <div class="notes-block relative w-full overflow-hidden rounded-md bg-muted/50 px-4 py-3">
+          <div class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground mb-1">
+            <StickyNote :size="14" />
+            Notes
+          </div>
+          <p class="text-sm text-foreground/80">
+            {{ transaction.notes }}
+          </p>
+        </div>
+      </CardFooter>
     </Card>
   </div>
 </template>
+
+<style scoped>
+.notes-block::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(to bottom, #facc15, #fef08a);
+}
+</style>
