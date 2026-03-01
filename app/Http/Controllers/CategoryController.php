@@ -47,15 +47,6 @@ final class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Category $category): Response
-    {
-        // TODO: implement
-        return Inertia::render('Category');
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse

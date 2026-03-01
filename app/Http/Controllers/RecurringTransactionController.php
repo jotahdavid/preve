@@ -53,15 +53,6 @@ final class RecurringTransactionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(RecurringTransaction $recurring): Response
-    {
-        // TODO: implement
-        return Inertia::render('RecurringTransaction');
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(RecurringTransactionRequest $request, RecurringTransaction $recurring): RedirectResponse

@@ -7,6 +7,7 @@ import FormTransactionDialog from '@/components/Transaction/FormTransactionDialo
 import DeleteButton from '@/components/ui/button/DeleteButton.vue';
 import DuplicateButton from '@/components/ui/button/DuplicateButton.vue';
 import EditButton from '@/components/ui/button/EditButton.vue';
+import InfoButton from '@/components/ui/button/InfoButton.vue';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -79,6 +80,8 @@ const openDeleteDialog = (transaction: ITransaction) => {
     <div class="flex items-center gap-2">
       <span :class="amountClass"> R$ {{ formattedAmount }} </span>
       <ActionGroup>
+        <InfoButton :transactionId="transaction.id" />
+
         <DuplicateButton @click="openEditDialog(transaction, 'duplicate')" />
 
         <EditButton @click="openEditDialog(transaction, 'edit')" />
