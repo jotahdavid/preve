@@ -34,7 +34,7 @@ final class TransactionController extends Controller
 
         $filters = $request->validated();
 
-        return Inertia::render('Transaction', compact('transactions', 'categories', 'tags', 'filters'));
+        return Inertia::render('transactions/Transaction', compact('transactions', 'categories', 'tags', 'filters'));
     }
 
     /**
@@ -56,8 +56,9 @@ final class TransactionController extends Controller
      */
     public function show(Transaction $transaction): Response
     {
-        // TODO: implement
-        return Inertia::render('Transaction');
+        $transaction->load(['category', 'tag']);
+
+        return Inertia::render('transactions/TransactionShow', compact('transaction'));
     }
 
     /**

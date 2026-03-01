@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 import ActionGroup from '@/components/ActionGroup.vue';
 import DeleteTransactionDialog from '@/components/Transaction/DeleteTransactionDialog.vue';
@@ -7,6 +8,7 @@ import FormTransactionDialog from '@/components/Transaction/FormTransactionDialo
 import DeleteButton from '@/components/ui/button/DeleteButton.vue';
 import DuplicateButton from '@/components/ui/button/DuplicateButton.vue';
 import EditButton from '@/components/ui/button/EditButton.vue';
+import InfoButton from '@/components/ui/button/InfoButton.vue';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -14,6 +16,7 @@ import { getIconComponent } from '@/lib/category-icons';
 import { formatCentsToDisplay } from '@/lib/currency';
 import { capitalizeFirstLetter, cn } from '@/lib/utils';
 import { ITransaction } from '@/types/models/transaction';
+import transactionRoutes from '@/routes/transactions';
 
 const props = defineProps<{
   transaction: ITransaction;
@@ -51,6 +54,10 @@ const openDeleteDialog = (transaction: ITransaction) => {
   selectedTransaction.value = transaction;
   showDeleteDialog.value = true;
 };
+
+const openTransactionDetail = (transaction: ITransaction) => {
+  router.get(transactionRoutes.show(transaction.id).url);
+}
 </script>
 
 <template>
@@ -79,6 +86,8 @@ const openDeleteDialog = (transaction: ITransaction) => {
     <div class="flex items-center gap-2">
       <span :class="amountClass"> R$ {{ formattedAmount }} </span>
       <ActionGroup>
+        <InfoButton @click="openTransactionDetail(transaction)" />
+
         <DuplicateButton @click="openEditDialog(transaction, 'duplicate')" />
 
         <EditButton @click="openEditDialog(transaction, 'edit')" />
