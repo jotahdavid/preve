@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { StickyNote } from 'lucide-vue-next';
-import { dashboard } from '@/routes';
-import transactionRoutes from '@/routes/transactions';
-import type { BreadcrumbItem } from '@/types';
+
+import { cn } from '@/lib/utils';
+import { formatCentsToDisplay } from '@/lib/currency';
 import { ITransaction } from '@/types/models/transaction';
+import { formatTransactionDate } from '@/utils/formatDate';
 import DetailItem from '@/components/Transaction/DetailItem.vue';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { formatCentsToDisplay } from '@/lib/currency';
-import { formatTransactionDate } from '@/utils/formatDate';
-import { cn } from '@/lib/utils';
 
 interface Props {
   transaction: ITransaction;
@@ -16,20 +14,6 @@ interface Props {
 
 defineProps<Props>();
 
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: 'Dashboard',
-    href: dashboard().url,
-  },
-  {
-    title: 'Transactions',
-    href: transactionRoutes.index().url,
-  },
-  {
-    title: 'Transaction Details',
-    href: '',
-  },
-];
 function formattedAmount(transaction: ITransaction) {
   return formatCentsToDisplay(transaction.amount);
 }
