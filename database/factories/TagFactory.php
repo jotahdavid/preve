@@ -6,7 +6,6 @@ namespace Database\Factories;
 
 use App\Models\Tag;
 use App\Models\User;
-use App\Support\DefaultTags;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -19,13 +18,13 @@ final class TagFactory extends Factory
 
     public function definition(): array
     {
-        $tag = $this->faker->randomElement(DefaultTags::get());
+        $name = $this->faker->unique()->word();
 
         return [
             'user_id'     => User::factory(),
-            'name'        => $tag['name'],
-            'slug'        => Str::slug($tag['name']),
-            'description' => $tag['description'],
+            'name'        => $name,
+            'slug'        => Str::slug($name),
+            'description' => $this->faker->optional()->sentence(),
         ];
     }
 }
