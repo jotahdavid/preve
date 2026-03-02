@@ -22,6 +22,7 @@ it('should be able to generate future transactions and avoid duplicates', functi
         'start_date'   => Carbon::parse('2026-03-01'),
         'day_of_month' => 10,
         'is_active'    => true,
+        'end_date'     => null,
     ]);
 
     $this->service->generateFutureTransactions($recurring, 3);
