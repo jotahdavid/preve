@@ -39,9 +39,13 @@ final class TransactionFilter extends QueryFilter
 
     public function search(string $term): void
     {
-        $this->builder->where(function ($query) use ($term) {
-            $query->where('description', 'like', "%{$term}%")
-                ->orWhereHas('category', fn ($q) => $q->where('name', 'like', "%{$term}%"));
+        $lowerTerm = sprintf('%%%s%%', mb_strtolower($term));
+
+        $this->builder->where(function ($query) use ($lowerTerm) {
+            $query->whereRaw('LOWER(description) LIKE ?', [$lowerTerm])
+                ->orWhereHas('category', function ($q) use ($lowerTerm) {
+                    $q->whereRaw('LOWER(name) LIKE ?', [$lowerTerm]);
+                });
         });
     }
 }
