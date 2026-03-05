@@ -45,47 +45,45 @@ const breadcrumbs: BreadcrumbItem[] = [
   <Head title="Recurring" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
-    <div class="page-container">
-      <!-- HEADING -->
-      <Heading
-        title="Recurring Transactions"
-        description="Manage your recurring transactions here."
-        :hasActions="true"
-      >
-        <Button type="button" @click="openCreateDialog"> Create </Button>
-      </Heading>
+    <!-- HEADING -->
+    <Heading
+      title="Recurring Transactions"
+      description="Manage your recurring transactions here."
+      :hasActions="true"
+    >
+      <Button type="button" @click="openCreateDialog"> Create </Button>
+    </Heading>
 
-      <!-- RECURRING CARDS -->
-      <RecurringCards
-        :incomeRecurring="incomeRecurring"
-        :expenseRecurring="expenseRecurring"
+    <!-- RECURRING CARDS -->
+    <RecurringCards
+      :incomeRecurring="incomeRecurring"
+      :expenseRecurring="expenseRecurring"
+    />
+
+    <!-- CONTAINER -->
+    <div class="space-y-10 mt-5">
+      <ContainerRecurrings
+        :tags="tags"
+        :categories="categories"
+        :recurringTransactions="incomeRecurring"
+        type="income"
+        @create="openCreateDialog"
       />
 
-      <!-- CONTAINER -->
-      <div class="space-y-10 mt-5">
-        <ContainerRecurrings
-          :tags="tags"
-          :categories="categories"
-          :recurringTransactions="incomeRecurring"
-          type="income"
-          @create="openCreateDialog"
-        />
-
-        <ContainerRecurrings
-          :tags="tags"
-          :categories="categories"
-          :recurringTransactions="expenseRecurring"
-          @create="openCreateDialog"
-        />
-      </div>
-
-      <!-- CREATE -->
-      <CreateRecurringDialog
-        v-if="showCreateDialog"
-        v-model:open="showCreateDialog"
-        :categories="categories"
+      <ContainerRecurrings
         :tags="tags"
+        :categories="categories"
+        :recurringTransactions="expenseRecurring"
+        @create="openCreateDialog"
       />
     </div>
+
+    <!-- CREATE -->
+    <CreateRecurringDialog
+      v-if="showCreateDialog"
+      v-model:open="showCreateDialog"
+      :categories="categories"
+      :tags="tags"
+    />
   </AppLayout>
 </template>
