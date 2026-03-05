@@ -59,7 +59,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
       <!-- TRANSACTIONS -->
       <ContainerTransactions
-        :transactions="[]"
+        :transactions="transactions"
         :filters="filters"
       />
 
