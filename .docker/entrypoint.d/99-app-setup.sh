@@ -4,7 +4,11 @@ set -e
 if [ "$CONTAINER_ROLE" == "app" ]; then
     if [ "$APP_ENV" == "local" ]; then
         echo "📦 [APP] Installing packages..."
-        composer install
+        if [ ! -f vendor/autoload.php ] || [ composer.lock -nt vendor/autoload.php ]; then
+            composer install --no-interaction
+        else
+            echo "📦 [APP] Dependencies already installed, skipping composer install."
+        fi
     fi
 
     echo "🚀 [APP] Running startup tasks..."
