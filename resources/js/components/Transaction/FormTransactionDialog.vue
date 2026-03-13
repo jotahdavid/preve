@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
+import { today, getLocalTimeZone } from '@internationalized/date';
 import { computed, inject, ref, watch } from 'vue';
 
 import FormTransaction from '@/components/Transaction/FormTransaction.vue';
@@ -63,7 +64,7 @@ watch(
       form.notes = transaction.notes ?? '';
       form.transaction_date = transaction.transaction_date
         ? transaction.transaction_date.split('T')[0]
-        : new Date().toISOString().split('T')[0];
+        : today(getLocalTimeZone()).toString();
     }
   },
   { immediate: true },
@@ -113,7 +114,9 @@ const handleSubmit = () => {
 };
 
 const submitButtonText = computed(() => {
-  return props.type === 'duplicate' ? 'Duplicate Transaction' : 'Edit Transaction';
+  return props.type === 'duplicate'
+    ? 'Duplicate Transaction'
+    : 'Edit Transaction';
 });
 </script>
 
@@ -142,7 +145,11 @@ const submitButtonText = computed(() => {
           <DialogClose as-child>
             <Button variant="outline"> Cancel </Button>
           </DialogClose>
-          <Button type="button" @click="handleSubmit" :disabled="form.processing">
+          <Button
+            type="button"
+            @click="handleSubmit"
+            :disabled="form.processing"
+          >
             {{ submitButtonText }}
           </Button>
         </DialogFooter>

@@ -3,6 +3,7 @@ import { Filter } from 'lucide-vue-next';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -154,10 +155,9 @@ const { form, activeCount, apply, clear } = useFilter<ITransactionFilters>(
               <div class="grid grid-cols-2 gap-4">
                 <div class="space-y-2">
                   <Label for="date_start">Start Date</Label>
-                  <Input
+                  <DatePicker
                     id="date_start"
                     v-model="form.date_start"
-                    type="date"
                   />
                 </div>
                 <div class="space-y-2">
