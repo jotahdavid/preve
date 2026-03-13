@@ -8,6 +8,7 @@ use App\Enums\TransactionType;
 use App\Http\Requests\RecurringTransactionRequest;
 use App\Models\RecurringTransaction;
 use App\Services\RecurringTransactionService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -94,6 +95,12 @@ final class RecurringTransactionController extends Controller
     public function destroy(RecurringTransaction $recurring): RedirectResponse
     {
         $this->authorize('delete', $recurring);
+
+        $startOfNextMonth = Carbon::now()->endOfMonth()->addDay()->startOfDay();
+
+        $recurring->transactions()
+            ->where('transaction_date', '>=', $startOfNextMonth)
+            ->delete();
 
         $recurring->delete();
 

@@ -43,7 +43,10 @@ const deleteRecurring = () => {
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>
           This action cannot be undone. This will permanently delete the
-          transaction "{{ recurringTransaction?.description }}".
+          recurring transaction "{{ recurringTransaction?.description }}"
+          and all its generated transactions from next month onwards.
+          <br><br>
+          Transactions from the current month and past months will not be affected.
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
