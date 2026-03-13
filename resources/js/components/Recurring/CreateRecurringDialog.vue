@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
+import { today, getLocalTimeZone } from '@internationalized/date';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -25,7 +26,6 @@ import { useRecurringStore } from '@/stores/recurring.store';
 import { type ICategory } from '@/types/models/category';
 import { IRecurringTransaction } from '@/types/models/recurring-transaction';
 import { type ITag } from '@/types/models/tag';
-import { formatTransactionDate } from '@/utils/formatDate';
 
 interface Props {
   categories: ICategory[];
@@ -48,7 +48,7 @@ const form = useForm<IRecurringTransaction>({
   description: '',
   is_active: true,
   day_of_month: new Date().getDate(),
-  start_date: formatTransactionDate(),
+  start_date: today(getLocalTimeZone()).toString(),
   end_date: undefined,
 });
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
+import { today, getLocalTimeZone } from '@internationalized/date';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
@@ -46,7 +47,7 @@ const form = useForm<ITransaction>({
   type: TRANSACTION_TYPE.EXPENSE,
   description: '',
   notes: undefined,
-  transaction_date: new Date().toLocaleDateString('pt-BR'),
+  transaction_date: today(getLocalTimeZone()).toString(),
 });
 
 const displayAmount = computed({

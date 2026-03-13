@@ -4,6 +4,7 @@ import { ArrowDownLeft, ArrowUpRight } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 import InputError from '@/components/InputError.vue';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Input } from '@/components/ui/input';
 import {
   InputGroup,
@@ -181,9 +182,8 @@ const filteredCategories = computed(() => {
     <div class="grid grid-cols-2 gap-4">
       <div class="grid gap-3">
         <Label for="start_date"> Start Date </Label>
-        <Input
+        <DatePicker
           id="start_date"
-          type="date"
           v-model="form.start_date"
           class="[&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:dark:invert-0"
         />
@@ -194,9 +194,8 @@ const filteredCategories = computed(() => {
         <Label for="end_date" class="text-muted-foreground">
           End Date (Optional)
         </Label>
-        <Input
+        <DatePicker
           id="end_date"
-          type="date"
           v-model="form.end_date"
           class="[&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:dark:invert-0"
         />
